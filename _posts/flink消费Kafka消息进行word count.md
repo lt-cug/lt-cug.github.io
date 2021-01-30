@@ -170,9 +170,13 @@ public class TestProducer {
 ```
 # 4.运行结果
 Kafka发送两条消息
+
 ![image.png](https://cdn.nlark.com/yuque/0/2020/png/702655/1603110734393-ab5640c9-95b7-4ce1-9567-385addfbe639.png#align=left&display=inline&height=298&margin=%5Bobject%20Object%5D&name=image.png&originHeight=298&originWidth=367&size=18779&status=done&style=none&width=367)
+
 flink对每条消息的处理结果
+
 ![image.png](https://cdn.nlark.com/yuque/0/2020/png/702655/1603110719411-a69bfd9d-1804-4e4c-9e16-cfb41d4e3868.png#align=left&display=inline&height=351&margin=%5Bobject%20Object%5D&name=image.png&originHeight=351&originWidth=346&size=20178&status=done&style=none&width=346)
+
 如果不懂Kafka，可以换成netcat发送数据，
 18行取消注释
 DataStream<String> text = env.socketTextStream("127.0.0.1", 9000);        
@@ -180,6 +184,7 @@ DataStream<String> text = env.socketTextStream("127.0.0.1", 9000);       
 DataStream<Tuple2<String, Integer>> dataStream = lines.flatMap()
 注释调20-33行Kafka那一段
 运行netcat，结果如图
+    
 ![image.png](https://cdn.nlark.com/yuque/0/2020/png/702655/1603111782352-bde41453-876b-4721-89be-5a6f6c0508e4.png#align=left&display=inline&height=60&margin=%5Bobject%20Object%5D&name=image.png&originHeight=60&originWidth=289&size=2851&status=done&style=none&width=289)
 ![image.png](https://cdn.nlark.com/yuque/0/2020/png/702655/1603111727490-2cf1940a-f71d-4c66-8e73-ccda06af6816.png#align=left&display=inline&height=301&margin=%5Bobject%20Object%5D&name=image.png&originHeight=301&originWidth=433&size=21492&status=done&style=none&width=433)
 # 5.关于重写方法
