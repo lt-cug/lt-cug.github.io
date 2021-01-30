@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      ubuntu16.04安装CUDA8
-subtitle:   
+subtitle:   复杂的过程，可以给虚拟机安装
 date:       2021-01-30
 author:     Pallas Cat
 header-img: img/post-bg-recitewords.jpg
