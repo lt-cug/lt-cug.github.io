@@ -7,7 +7,8 @@ author:     Pallas's Cat
 header-img: img/post-bg-recitewords.jpg
 catalog: false
 tags:
-    - Flink Kafka
+    - Flink
+    - Kafka
 ---
 
 # flink消费Kafka消息进行word count
