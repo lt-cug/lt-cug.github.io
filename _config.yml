@@ -5,7 +5,7 @@ SEOTitle: Pallas's Cat Blogs - Good good study, day day up!
 # SEOTitle: 蓝星语 - 地球家园的共通语
 header-img: img/post-bg-desk.jpg
 #email: globien@outlook.com
-description: "分享，学习，进步"
+description: "大数据, 分布式, 流处理, Java, 分享，学习，进步"
 keyword: "大数据, 分布式, 流处理, Java"
 url: "https://lt-cug.github.io"          # your host, for absolute URL
 baseurl: ""      # for example, '/blog' if your blog hosted on 'host/blog'
@@ -13,7 +13,7 @@ github_repo: "https://github.com/lt-cug/lt-cug.github.io.git" # you code reposit
 
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
-sidebar-about-description: "Goals determine what you're going to be!"
+sidebar-about-description: "纸上得来终觉浅，绝知此事要躬行！"
 sidebar-avatar: /img/kabishou-touxiang.png      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 
