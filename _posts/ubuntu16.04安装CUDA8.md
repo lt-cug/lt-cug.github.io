@@ -1,4 +1,14 @@
-# ubuntu16.04安装CUDA8
+---
+layout:     post
+title:      ubuntu16.04安装CUDA8
+subtitle:   
+date:       2021-01-30
+author:     Pallas Cat
+header-img: img/post-bg-recitewords.jpg
+catalog: false
+tags:
+    - CUDA
+---
 
 # 一、准备工作
 
