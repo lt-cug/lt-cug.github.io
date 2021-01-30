@@ -1,3 +1,15 @@
+---
+layout:     post
+title:      flink消费Kafka消息进行word count
+subtitle:   简单的流处理，Kafka结合Flink
+date:       2021-1-30
+author:     Pallas's Cat
+header-img: img/post-bg-recitewords.jpg
+catalog: false
+tags:
+    - Flink Kafka
+---
+
 # flink消费Kafka消息进行word count
 
 # 1.简单讲解
