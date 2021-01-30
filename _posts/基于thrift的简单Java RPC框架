@@ -1,0 +1,175 @@
+---
+layout:     post
+title:      基于thrift的简单Java RPC框架
+subtitle:   
+date:       2021-01-30
+author:     Pallas's Cat
+header-img: img/post-bg-cook.jpg
+catalog: true
+tags:
+    - Java
+---
+
+**背景：RPC是一种常用的技术，比如游戏服务器，算法服务等都会用到。有时我们想使用一个简单的RPC框架；或者客户端服务端程序是由不用语言编写，但是要使用RPC技术，这时thrift是一种很好的选择。thrift是一种跨语言的RCP框架（不跨语言也可以），下面讲解如何用thrift编写一个简单的客户端服务端均为Java语言的RPC框架。**
+
+
+# 定义接口，生成代码
+
+创建一个helloworld.thrift文件，内容如下
+service Hello  {
+           string helloString(1:string word)
+}
+
+
+用命令：thrift --gen java  helloworld.thrift 生成一个名为Hello的Java文件，把此文件放入客户端和服务端项目的thrift包里。
+
+![image.png](https://cdn.nlark.com/yuque/0/2020/png/702655/1597828658649-c5a14971-c7d6-4861-937a-991567f49545.png#align=left&display=inline&height=545&margin=%5Bobject%20Object%5D&name=image.png&originHeight=545&originWidth=358&size=21493&status=done&style=none&width=358)
+依赖如下：
+```java
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.thrift</groupId>
+            <artifactId>libthrift</artifactId>
+            <version>0.13.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.5.8</version>
+
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13</version>
+        </dependency>
+    </dependencies>
+```
+
+
+# 客户端代码
+
+```java
+package client;
+
+import org.apache.thrift.TException;
+import org.apache.thrift.protocol.TBinaryProtocol;
+import org.apache.thrift.protocol.TProtocol;
+import org.apache.thrift.transport.TSocket;
+import org.apache.thrift.transport.TTransport;
+import thrift.Hello;
+import java.io.IOException;
+
+public class SimilarityThriftClient {
+
+    public static void main(String[] args) {
+        try {
+            TTransport transport;
+            transport = new TSocket("localhost", 9000);
+            transport.open();
+
+            TProtocol protocol = new TBinaryProtocol(transport);
+            Hello.Client client = new Hello.Client(protocol);
+            perform(client);
+            transport.close();
+
+        } catch (TException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private static void perform(Hello.Client client) throws TException, IOException {
+        String str = "001.jpg,002.jpg,003.jpg,004.jpg,005.jpg,demo.jpg";
+        String[] paths = str.split(",");
+        for(String path:paths){
+            //ratio是客户端吧path传过去后服务端的返回信息，即服务端代码里的1
+            String ratio = client.helloString(path);
+            System.out.println(ratio);
+        }
+    }
+}
+```
+
+
+# 服务端代码
+
+```java
+package server;
+
+import org.apache.thrift.protocol.TBinaryProtocol.Factory;
+import org.apache.thrift.server.TServer;
+import org.apache.thrift.server.TThreadPoolServer;
+import org.apache.thrift.server.TThreadPoolServer.Args;
+import org.apache.thrift.transport.TServerSocket;
+import org.apache.thrift.transport.TTransportException;
+
+import thrift.Hello;
+import thrift.Hello.Processor;
+
+/**
+ * 启动服务
+ *
+ */
+public class ThriftServer {
+/**
+ * 启动Thrift服务器
+ */
+public void startServer() {
+
+        try {
+        // 定义传输的socket，设置服务端口为6789
+        TServerSocket serverTransport = new TServerSocket(9000);
+
+        // 设置协议工厂为 TBinaryProtocol.Factory
+        Factory proFactory = new Factory(true, true);
+
+        // 关联处理器与 Hello服务的实现
+        Hello.Processor processor = new Processor(new HelloServiceImpl());
+
+        // 定义服务端的参数值
+        Args args = new Args(serverTransport);
+        args.processor(processor);
+        args.protocolFactory(proFactory);
+        TServer server = new TThreadPoolServer(args);
+
+        // 服务端开启服务s
+        server.serve();
+        } catch (TTransportException e) {
+        e.printStackTrace();
+        }
+        }
+
+    public static void main(String[] args) {
+        System.out.println("ServerStart!");
+        ThriftServer server = new ThriftServer();
+        server.startServer();
+    }
+
+}
+```
+
+
+```java
+package server;
+
+import org.apache.thrift.TException;
+import thrift.Hello.Iface;
+
+/**
+ * 服务端实现类
+ *
+ * @author liutao
+ */
+public class HelloServiceImpl implements Iface {
+
+    public String helloString(String word) throws TException {
+        //输出word是在服务端输出
+        System.out.println(word);
+        //return是给客户端返回信息
+        return "1";
+    }
+}
+```
